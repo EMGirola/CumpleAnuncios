@@ -1,7 +1,7 @@
 const fs = require('fs');
 const User = require('./User.js');
 const webhook = require("webhook-discord");
-const Hook = new webhook.Webhook("https://discord.com/api/webhooks/839696395556356137/1l5fX6MgQR5s7TawUuzoS452ueO43dNBI99IOSHgRyyAIvpWVbpuJIO4Rd2_0mzYKc_4");
+const Hook = new webhook.Webhook(process.env.WEBHOOK);
 
 module.exports = class {
     
