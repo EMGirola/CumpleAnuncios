@@ -1,0 +1,27 @@
+{
+  "name": "cumpleanuncios",
+  "version": "1.0.0",
+  "description": "te aviso, te anuncio, que hoy renuncio",
+  "main": "main.js",
+  "scripts": {
+    "test": "non.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EMGirola/CumpleAnuncios.git"
+  },
+  "keywords": [
+    "anuncio",
+    "discord"
+  ],
+  "author": "Quelo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EMGirola/CumpleAnuncios/issues"
+  },
+  "homepage": "https://github.com/EMGirola/CumpleAnuncios#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "webhook-discord": "^3.7.7"
+  }
+}
