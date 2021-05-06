@@ -15,7 +15,7 @@ app.get('/api/notify', function (req, res) {
     res.send('Notificados correctamente '+ cant + ' usuarios');
 });
 
-app.get('/api/users', (req, res) => {
+app.get('/', (req, res) => {
     res.send(container.getUsers());
 }) 
 
@@ -68,6 +68,6 @@ app.post('/api/user/remove', function (req, res) {
 });
 
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log("El servidor esta inicializado.");
 });
