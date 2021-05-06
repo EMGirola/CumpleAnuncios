@@ -64,7 +64,7 @@ app.post('/api/user/remove', function (req, res) {
 
 
     container.removeUser(users[0]);
-    res.send('Usuario borrado correctamente  con nombre: '+ newUser.getName());
+    res.send('Usuario borrado correctamente  con nombre: '+ users[0].getName());
 });
 
 
