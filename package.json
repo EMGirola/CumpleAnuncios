@@ -4,6 +4,7 @@
   "description": "te aviso, te anuncio, que hoy renuncio",
   "main": "main.js",
   "scripts": {
+    "start": "node main.js",
     "test": "non.js"
   },
   "repository": {
