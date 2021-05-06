@@ -42,10 +42,10 @@ app.post('/api/user/add', function (req, res) {
 
     container.addUser(newUser);
 
-    res.send('Usuario creado correctamente con nombre: '+ newUser.getName());
+    res.status(201).send('Usuario creado correctamente con nombre: '+ newUser.getName());
 });
 
-app.post('/api/user/remove', function (req, res) { 
+app.delete('/api/user/remove', function (req, res) { 
     if (!req.body 
             || !req.body.name
             ) {
