@@ -9,6 +9,7 @@ module.exports = class {
     constructor(){
         this.users = [];
         this.loadData();
+        this.timer = undefined;
     }
 
     loadData() {
@@ -27,7 +28,8 @@ module.exports = class {
     }
 
     saveData() {
-        console.log('Going to save users!');
+        console.log('Saving data to the file...');
+        this.timer = undefined;
         fs.writeFile('./data/users.json', JSON.stringify(this.users, null, 2), function(err, result){
 			if(err) {
 			 console.log('Cannot save a file: ' + err);
@@ -41,15 +43,17 @@ module.exports = class {
     }
 
     addUser(user) {
+        console.log('New user was created, adding to list: ', user);
         this.users.push(user);
-        this.saveData();
-        console.log('New user was created, adding to list');
+
+        this.saveUsers();
     }
 
     removeUser(user){
+        console.log('Removed user: ', user);
         this.users = this.users.filter(usr => usr.getName().toLowerCase() != user.getName().toLowerCase())
-        console.log('Removed user, saving with new changes');
-        this.saveData();
+
+        this.saveUsers();
     }
 
     getUserByName(name) {
@@ -86,5 +90,11 @@ module.exports = class {
         }
 
         return cont;
+    }
+
+    saveUsers() {
+        if (!this.timer) {
+            this.timer = setTimeout(this.saveData(), 30000);
+        }
     }
 }

@@ -18,6 +18,10 @@ module.exports = class {
         this.name = name;
     }
 
+    getBirth() {
+        return this.dateBirth;
+    }
+
     setDateBirth(dateBirth) {
         if (!dateBirth.d && !dateBirth.includes("-")) {
             throw "La fecha de nacimiento debe ser con formato: mm/dd";
@@ -52,5 +56,9 @@ module.exports = class {
 
     getMessage() {
         return this.message;
+    }
+
+    setMessage(message) {
+        this.message = message;
     }
 }
