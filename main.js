@@ -30,9 +30,6 @@ app.post('/api/user/add', function (req, res) {
         return;
     }
 
-    console.log('Received new request on /api/user/add: ', req.body);
-
-
     let users = container.getUserByName(req.body.name);
 
     if (users.length != 0) {
