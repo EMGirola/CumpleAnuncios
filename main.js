@@ -47,6 +47,7 @@ app.post('/api/user/add', function (req, res) {
     try {
        newUser = new User(req.body.name, req.body.dateBirth, msg)
     } catch(error) {
+        console.log('Something bad happen updating the dateBirth ', error);
         return res.status(400).send(error);
     }
 

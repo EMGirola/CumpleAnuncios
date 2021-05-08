@@ -29,7 +29,6 @@ module.exports = class {
 
     saveData() {
         console.log('Saving data to the file...');
-        this.timer = undefined;
         fs.writeFile('./data/users.json', JSON.stringify(this.users, null, 2), function(err, result){
 			if(err) {
 			 console.log('Cannot save a file: ' + err);
@@ -95,6 +94,9 @@ module.exports = class {
     saveUsers() {
         if (!this.timer) {
             this.timer = setTimeout(this.saveData(), 30000);
+            setTimeout(function() {
+                this.timer = null;
+            }, 30100)
         }
     }
 }
