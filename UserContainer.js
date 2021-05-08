@@ -93,7 +93,7 @@ module.exports = class {
 
     saveUsers() {
         if (!this.timer) {
-            this.timer = setTimeout(this.saveData(), 30000);
+            this.timer = setTimeout(this.saveData, 30000);
             setTimeout(function() {
                 this.timer = null;
             }, 30100)
