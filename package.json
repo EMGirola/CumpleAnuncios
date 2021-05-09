@@ -23,6 +23,8 @@
   "homepage": "https://github.com/EMGirola/CumpleAnuncios#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "pg": "^8.6.0",
+    "postgres": "^1.0.2",
     "webhook-discord": "^3.7.7"
   }
 }

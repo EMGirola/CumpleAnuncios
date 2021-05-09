@@ -22,13 +22,13 @@ module.exports = class {
         return this.dateBirth;
     }
 
-    setDateBirth(dateBirth) {
-        if (!dateBirth.d && !dateBirth.includes("-")) {
+    setDateBirth(dBirth) {
+        if (!dBirth.d && !dBirth.includes("-")) {
             throw "La fecha de nacimiento debe ser con formato: mm/dd";
         }
 
-        if (!dateBirth.d) {
-            let dateArr = dateBirth.split("-");
+        if (!dBirth.d) {
+            let dateArr = dBirth.split("-");
             let month = dateArr[0];
             let day = dateArr[1];
     
@@ -46,7 +46,7 @@ module.exports = class {
             }
         } 
         else {
-            this.dateBirth = dateBirth;
+            this.dateBirth = dBirth;
         }
     }
 

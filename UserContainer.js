@@ -1,76 +1,86 @@
 const fs = require('fs');
 const User = require('./User.js');
 const webhook = require("webhook-discord");
+const { Pool } = require('pg');
+
+
 const Hook = new webhook.Webhook(process.env.WEBHOOK);
 
 module.exports = class {
     
 
     constructor(){
-        this.users = [];
-        this.loadData();
         this.timer = undefined;
-    }
 
-    loadData() {
-        let users = require('./data/users.json');
-        console.log('Loading '+ users.length + " users from file");
-        users.forEach(usr => {
-            try {
-                this.users.push(new User(usr.name, usr.dateBirth, usr.message));
-            } catch(error) {
-                console.error("Usuario incorrecto en el archivo de datos:", usr, error);
-            }
+        let connString = process.env.DATABASE_URL;
 
-
-        })
-        console.log('Loaded '+ this.users.length + ' users on memory');
-    }
-
-    saveData() {
-        console.log('Saving data to the file...');
-        fs.writeFile('./data/users.json', JSON.stringify(this.users, null, 2), function(err, result){
-			if(err) {
-			 console.log('Cannot save a file: ' + err);
-			 console.log(err);
+        this.pool = new Pool({
+            connString,
+            ssl: {
+                rejectUnauthorized: false
             }
         });
+        
     }
 
-    getUsers() {
-        return this.users;
+    async getUsers() {
+
+        try {
+            let rawData = await this.pool.query('SELECT * FROM users');
+            return this.convertSqlToUsers(rawData.rows);
+        } catch (err) {
+            console.log('Error fetching all users: ', err);
+            return 'Error fetching users';
+        }
     }
 
     addUser(user) {
         console.log('New user was created, adding to list: ', user);
-        this.users.push(user);
-
-        this.saveUsers();
+        this.saveUser(user);
     }
 
-    removeUser(user){
+    async removeUser(user){
         console.log('Removed user: ', user);
-        this.users = this.users.filter(usr => usr.getName().toLowerCase() != user.getName().toLowerCase())
-
-        this.saveUsers();
+        let sqlDelete = `DELETE FROM users WHERE username = ($1)`;
+        try {
+            this.pool.query(sqlDelete, [user.getName()]);
+        } catch(err) {
+            console.log('Error deleting user: ', err);
+        }
     }
 
-    getUserByName(name) {
-        return this.users.filter(usr => usr.getName().toLowerCase() == name.toLowerCase());
+    async getUserByName(name) {
+        let sqlSearchByName = 'Select user_id, username, datebirth, message from users WHERE username like ($1)';
+
+        try {
+            let response = await this.pool.query(sqlSearchByName, [name]);
+            return this.convertSqlToUsers(response.rows);
+        } catch (err) {
+            console.log('Error fetching user: ', err);
+            //TODO: Manage errors :)
+            return [];
+        }
     }
 
 
-    notify() {
-        var today = new Date();
+    async notify() {
+
         let cont = 0;
 
-        this.users.forEach(usr => {
-            if (usr.isBirth(today)) {
-                
+        let value = this.convertToToday();
+        let sqlNotify = `SELECT user_id, username, datebirth, message from users where datebirth LIKE '${value}'`;
+
+        console.log(sqlNotify);
+
+        try {
+            let rawData = await this.pool.query(sqlNotify);
+            let users = this.convertSqlToUsers(rawData.rows);
+
+            users.forEach(usr => {
+                        
                 let msg = usr.getName();
                 msg += "\n" + usr.getMessage();
 
-                //Hook.info("Cumpleaños", msg);
                 const cHook = new webhook.MessageBuilder()
                     .setTitle(usr.getName())
                     .setName("Cumpleaños")
@@ -78,20 +88,42 @@ module.exports = class {
                     .setDescription(usr.getMessage());
                 Hook.send(cHook);
 
-                
-
                 cont++;
-            }
-        })
+            });
 
-        if (cont != 0) {
-            console.log('Sended ' + cont + ' notifications');
+        } catch(error) {
+            console.log('Error trying to notify users: ', error);
         }
 
         return cont;
     }
 
-    saveUsers() {
-        this.saveData();
+    saveUser(user) {
+        let sqlInsert = 'INSERT INTO users(username, dateBirth, message) values ($1, $2, $3)';
+        let values = this.convertUserToSql(user);
+        this.pool.query(sqlInsert, values)
+            .catch(err => console.log('Error inserting new user: ', err));
+    }
+
+    convertUserToSql(user) {
+        return [user.getName(), ''+ user.getBirth().m +'-'+ user.getBirth().d , user.getMessage()];
+    }
+
+    convertSqlToUsers(rows) {
+        return rows.map(row => {
+            try {   
+                return new User(row.username, row.datebirth, row.message);
+            } catch(error) {
+                console.log('Cannot convert row: ', rows);
+            }
+        })
+    }
+
+    convertToToday() {
+        let today = new Date();
+        let month = (today.getMonth() + 1 < 10) ? '0' + String(today.getMonth() + 1) : String(today.getMonth() + 1);
+        let day = (today.getDate() < 10 ) ? '0' + String(today.getDate()) : today.getDate();
+
+        return month + '-' + day;
     }
 }

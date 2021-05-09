@@ -9,17 +9,18 @@ var container = new Container();
 app.use(express.json());
 
 
-app.get('/api/notify', function (req, res) {
+app.get('/api/notify', async (req, res) => {
     console.log('Received request for notify');
-    let cant = container.notify();
+    let cant = await container.notify();
     res.send('Notificados correctamente '+ cant + ' usuarios');
 });
 
-app.get('/', (req, res) => {
-    res.send(container.getUsers());
+app.get('/', async (req, res) => {
+    let data = await container.getUsers();
+    res.send(data);
 }) 
 
-app.post('/api/user/add', function (req, res) { 
+app.post('/api/user/add', async (req, res) => { 
 
     if (!req.body 
             || !req.body.dateBirth 
@@ -30,7 +31,7 @@ app.post('/api/user/add', function (req, res) {
         return;
     }
 
-    let users = container.getUserByName(req.body.name);
+    let users = await container.getUserByName(req.body.name);
 
     if (users.length != 0) {
         res.status(400).send("Ya existe un usuario con este nombre, por favor ingrese otro");
@@ -51,10 +52,9 @@ app.post('/api/user/add', function (req, res) {
     container.addUser(newUser);
 
     res.status(201).send('Usuario creado correctamente con nombre: '+ newUser.getName());
-    console.log('Created new user: ', newUser);
 });
 
-app.delete('/api/user/remove', function (req, res) { 
+app.delete('/api/user/remove', async (req, res) => { 
     if (!req.body 
             || !req.body.name
             ) {
@@ -63,10 +63,7 @@ app.delete('/api/user/remove', function (req, res) {
         return;
     }
 
-    console.log('Received new request on /api/user/remove: ', req.body);
-
-
-    let users = container.getUserByName(req.body.name);
+    let users = await container.getUserByName(req.body.name);
 
     if (users.length == 0 || users.length > 1) {
         res.status(404).send("No se pudo encontrar un usuario con ese nombre");
@@ -75,7 +72,7 @@ app.delete('/api/user/remove', function (req, res) {
     }
 
 
-    container.removeUser(users[0]);
+    await container.removeUser(users[0]);
     res.send('Usuario borrado correctamente  con nombre: '+ users[0].getName());
 });
 
