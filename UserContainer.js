@@ -1,7 +1,8 @@
-const fs = require('fs');
 const User = require('./User.js');
 const webhook = require("webhook-discord");
 const { Pool } = require('pg');
+
+
 
 
 const Hook = new webhook.Webhook(process.env.WEBHOOK);
@@ -12,11 +13,10 @@ module.exports = class {
     constructor(){
         this.timer = undefined;
 
-        let connString = process.env.DATABASE_URL;
 
         this.pool = new Pool({
-            connString,
-            ssl: {
+            connectionString: process.env.DATABASE_URL,
+            ssl = {
                 rejectUnauthorized: false
             }
         });

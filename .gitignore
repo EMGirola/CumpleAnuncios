@@ -22,6 +22,8 @@ lib-cov
 coverage
 *.lcov
 
+postgresql.js
+
 # nyc test coverage
 .nyc_output
 
