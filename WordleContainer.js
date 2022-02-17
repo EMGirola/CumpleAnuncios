@@ -9,13 +9,7 @@ module.exports = class {
 
     async notify() {
 
-
-        const cHook = new webhook.MessageBuilder()
-            .setTitle("Aviso de palabra diaria")
-            .setName("Wordle")
-            .setColor("#aabbcc")
-            .setDescription("¡Atención @here!, Recordatorio de realizar el WORDLE de **HOY**.");
-        Hook.send(cHook);
+        Hook.send("¡Atención @here!, Recordatorio de realizar el WORDLE de **HOY**.");
 
     }
 }
