@@ -1,6 +1,5 @@
-const webhook = require("webhook-discord");
-
-const Hook = new webhook.Webhook(process.env.WEBHOOK_WORDLE);
+const { Webhook } = require('discord-webhook-node');
+const hook = new Webhook(process.env.WEBHOOK_WORDLE);
 
 module.exports = class {
 
@@ -9,7 +8,8 @@ module.exports = class {
 
     async notify() {
 
-        Hook.info("Wordle","¡Atención @here!, Recordatorio de realizar el WORDLE de **HOY**.");
+        hook.setUsername("Wordle");
+        hook.send("¡Atención @here!, Recordatorio de realizar el WORDLE de **HOY**.");
 
     }
 }
