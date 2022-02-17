@@ -4,7 +4,9 @@ var app = express();
 
 const User = require('./User.js');
 const Container = require("./UserContainer");
+const WordleContainer = require("./WordleContainer");
 var container = new Container();
+var wordleContainer = new WordleContainer();
 
 app.use(express.json());
 
@@ -12,6 +14,9 @@ app.use(express.json());
 app.get('/api/notify', async (req, res) => {
     console.log('Received request for notify');
     let cant = await container.notify();
+    
+    await wordleContainer.notify();
+
     res.send('Notificados correctamente '+ cant + ' usuarios');
 });
 
