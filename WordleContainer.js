@@ -9,7 +9,7 @@ module.exports = class {
 
     async notify() {
 
-        Hook.send("¡Atención @here!, Recordatorio de realizar el WORDLE de **HOY**.");
+        Hook.info("Wordle","¡Atención @here!, Recordatorio de realizar el WORDLE de **HOY**.");
 
     }
 }
