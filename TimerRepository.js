@@ -31,8 +31,7 @@ module.exports = class {
         this.checkOrCreateTimerTable();
 
         console.log('Trying to insert timestamp');
-        let time = new Date().toISOString().replace("T", " ").replace("Z", "");
-        let result = await this.pool.query(`INSERT INTO ${TABLE_NAME} (created_at) VALUES (to_timestamp(${time})`);
+        let result = await this.pool.query(`INSERT INTO ${TABLE_NAME} (created_at) VALUES (${Date.now()})`);
         console.log('Inserted into TABLE: ', result);
 
 
@@ -42,7 +41,7 @@ module.exports = class {
     async checkOrCreateTimerTable() {
         await this.pool.query(`CREATE TABLE IF NOT EXISTS ${TABLE_SCHEMA}.${TABLE_NAME} (
             id SERIAL,
-            created_at TIMESTAMP  
+            created_at character[30]  
         )`);            
     }
 }
