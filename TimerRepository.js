@@ -39,9 +39,10 @@ module.exports = class {
 
 
     async checkOrCreateTimerTable() {
+        await this.pool.query(`DROP TABLE ${TABLE_SCHEMA}.${TABLE_NAME}`);
         await this.pool.query(`CREATE TABLE IF NOT EXISTS ${TABLE_SCHEMA}.${TABLE_NAME} (
             id SERIAL,
-            created_at character[30]  
+            created_at bigint
         )`);            
     }
 }
