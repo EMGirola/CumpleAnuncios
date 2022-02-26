@@ -31,7 +31,7 @@ module.exports = class {
         this.checkOrCreateTimerTable();
 
 
-        let result = await this.pool.query(`INSERT INTO ${TABLE_NAME} (created_at) VALUES (${new Date().toISOString()})`);
+        let result = await this.pool.query(`INSERT INTO ${TABLE_NAME} (created_at) VALUES (TO_TIMESTAMP(${new Date().toISOString().replace("T", "")}))`);
         console.log('Inserted into TABLE: ', result);
 
 
