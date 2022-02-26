@@ -29,7 +29,7 @@ module.exports = class {
     async insertNewNotification() {
         this.checkOrCreateTimerTable();
 
-        
+
         let result = await this.pool.query(`INSERT INTO ${TABLE_NAME} (created_at) VALUES (${new Date().toISOString()})`);
         console.log('Inserted into TABLE: ', result);
 
@@ -39,7 +39,7 @@ module.exports = class {
 
     async checkOrCreateTimerTable() {
         await this.pool.query(`CREATE TABLE IF NOT EXISTS ${TABLE_NAME} (
-            id SERIAL
+            id SERIAL,
             created_at TIMESTAMP  
         )`);            
     }
