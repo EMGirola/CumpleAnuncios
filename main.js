@@ -18,9 +18,15 @@ app.get('/api/notify', async (req, res) => {
     console.log('Received request for notify');
 
     if (await timer.isNotificationNeeded()) {
-        await container.notify();
-        await wordleContainer.notify();
-        await timer.insertNotification();
+
+        try {
+            await container.notify();
+            await wordleContainer.notify();
+            await timer.insertNotification();    
+        } catch(ex) {
+            console.log('Exception trying to do something: ', ex);
+        }
+
     }
 
     res.send('Notifiy OK');
