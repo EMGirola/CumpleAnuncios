@@ -68,7 +68,7 @@ module.exports = class {
         let cont = 0;
 
         let value = this.convertToToday();
-        let sqlNotify = `SELECT user_id, username, datebirth, message from users where datebirth LIKE '${value}'`;
+        let sqlNotify = `SELECT user_id, username, datebirth, message from public.users where datebirth LIKE '${value}'`;
 
         console.log(sqlNotify);
 
@@ -99,7 +99,7 @@ module.exports = class {
     }
 
     saveUser(user) {
-        let sqlInsert = 'INSERT INTO users(username, dateBirth, message) values ($1, $2, $3)';
+        let sqlInsert = 'INSERT INTO public.users(username, dateBirth, message) values ($1, $2, $3)';
         let values = this.convertUserToSql(user);
         this.pool.query(sqlInsert, values)
             .catch(err => console.log('Error inserting new user: ', err));
