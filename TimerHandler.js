@@ -19,11 +19,13 @@ module.exports = class {
 
             let newDate = new Date();
 
+            console.log(`Old time: ${oldDate} VS Now: ${newDate}`);
+
             if (oldDate  < newDate) {
                 return true;
             }
 
-            const diffTime = Math.abs(newDate - oldDate);
+            const diffTime = newDate - oldDate;
 
 
             console.log('Notification discarded, cooldown not refreshed, will be in: '+ diffTime + 'ms');
