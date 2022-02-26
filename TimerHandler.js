@@ -13,6 +13,7 @@ module.exports = class {
         let lastNotif = await this.repo.fetchLastNotification();
 
         if (lastNotif && lastNotif.created_at) {
+            console.log('Last notification time: ', lastNotif);
             let oldDate = new Date(lastNotif.created_at);
 
             oldDate.setHours(oldDate.getHours() + 24);
