@@ -5,19 +5,25 @@ var app = express();
 const User = require('./User.js');
 const Container = require("./UserContainer");
 const WordleContainer = require("./WordleContainer");
+const TimerHandler = require("./TimerHandler.js");
+
 var container = new Container();
 var wordleContainer = new WordleContainer();
+var timer = new TimerHandler();
 
 app.use(express.json());
 
 
 app.get('/api/notify', async (req, res) => {
     console.log('Received request for notify');
-    let cant = await container.notify();
-    
-    await wordleContainer.notify();
 
-    res.send('Notificados correctamente '+ cant + ' usuarios');
+    if (await timer.isNotificationNeeded()) {
+        await container.notify();
+        await wordleContainer.notify();
+        await timer.insertNotification();
+    }
+
+    res.send('Notifiy OK');
 });
 
 app.get('/', async (req, res) => {
