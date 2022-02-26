@@ -22,6 +22,12 @@ module.exports = class {
             if (oldDate  < newDate) {
                 return true;
             }
+
+            const diffTime = Math.abs(newDate - oldDate);
+
+
+            console.log('Notification discarded, cooldown not refreshed, will be in: '+ diffTime + 'ms');
+
         }
         else {
             console.log('Notification cannot be calculated, returning true...');

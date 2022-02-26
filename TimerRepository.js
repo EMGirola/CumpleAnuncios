@@ -21,18 +21,13 @@ module.exports = class {
 
         let result = await this.pool.query(`SELECT id, created_at FROM ${TABLE_SCHEMA}.${TABLE_NAME} ORDER BY created_at DESC LIMIT 1`);
 
-        console.log('Result fetched from last notification: ', result);
-
         return result.rows[0];
     }
 
 
     async insertNewNotification() {
         this.checkOrCreateTimerTable();
-
-        console.log('Trying to insert timestamp');
-        let result = await this.pool.query(`INSERT INTO ${TABLE_NAME} (created_at) VALUES (${Date.now()})`);
-        console.log('Inserted into TABLE: ', result);
+        await this.pool.query(`INSERT INTO ${TABLE_NAME} (created_at) VALUES (${Date.now()})`);
 
 
     }
