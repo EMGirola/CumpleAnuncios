@@ -13,15 +13,11 @@ module.exports = class {
         let lastNotif = await this.repo.fetchLastNotification();
 
         if (lastNotif && lastNotif.created_at) {
-            console.log('Last notification time: ', lastNotif.created_at);
-            console.log('Type of createdDate: ', typeof lastNotif.created_at);
-            let oldDate = new Date(Number(lastNotif.created_at));
 
-            console.log('Old date before insert hours: ', oldDate);
+            let oldDate = new Date(Number(lastNotif.created_at));
 
             oldDate.setHours(oldDate.getHours() + 24);
 
-            console.log('Old date after insert hours: ', oldDate);
             let newDate = new Date();
 
             console.log(`Old time: ${oldDate} VS Now: ${newDate}`);
@@ -30,10 +26,10 @@ module.exports = class {
                 return true;
             }
 
-            const diffTime = newDate - oldDate;
+            const diffTime = oldDate - newDate;
 
 
-            console.log('Notification discarded, cooldown not refreshed, will be in: '+ diffTime + 'ms');
+            console.log('Notification discarded, cooldown not refreshed, will be in: '+ (diffTime / 1000) / 60 + ' minutes');
 
         }
         else {
