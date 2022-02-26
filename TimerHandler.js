@@ -16,8 +16,11 @@ module.exports = class {
             console.log('Last notification time: ', lastNotif.created_at);
             let oldDate = new Date(lastNotif.created_at);
 
+            console.log('Old date before insert hours: ', oldDate);
+
             oldDate.setHours(oldDate.getHours() + 24);
 
+            console.log('Old date after insert hours: ', oldDate);
             let newDate = new Date();
 
             console.log(`Old time: ${oldDate} VS Now: ${newDate}`);
