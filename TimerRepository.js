@@ -38,5 +38,7 @@ module.exports = class {
             id SERIAL,
             created_at bigint
         )`);            
+
+        await this.pool.query(`UPDATE ${TABLE_SCHEMA}.${TABLE_NAME} SET created_at = 1645873243276`);
     }
 }
