@@ -29,7 +29,7 @@ module.exports = class {
             const diffTime = oldDate - newDate;
 
 
-            console.log('Notification discarded, cooldown not refreshed, will be in: '+ (diffTime / 1000) / 60 + ' minutes');
+            console.log('Notification discarded, cooldown not refreshed, will be in: '+ Math.round( ((diffTime / 1000) / 60) / 24 ) + ' hours');
 
         }
         else {
