@@ -30,8 +30,9 @@ module.exports = class {
     async insertNewNotification() {
         this.checkOrCreateTimerTable();
 
-
-        let result = await this.pool.query(`INSERT INTO ${TABLE_NAME} (created_at) VALUES (to_timestamp(${Date.now()} / 1000.0)`);
+        console.log('Trying to insert timestamp');
+        let time = new Date().toISOString().replace("T", " ").replace("Z", "");
+        let result = await this.pool.query(`INSERT INTO ${TABLE_NAME} (created_at) VALUES (to_timestamp(${time})`);
         console.log('Inserted into TABLE: ', result);
 
 
