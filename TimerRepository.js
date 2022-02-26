@@ -23,7 +23,7 @@ module.exports = class {
 
         console.log('Result fetched from last notification: ', result);
 
-        return result[0];
+        return result.rows[0];
     }
 
 

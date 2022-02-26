@@ -23,6 +23,10 @@ module.exports = class {
                 return true;
             }
         }
+        else {
+            console.log('Notification cannot be calculated, returning true...');
+            return true;
+        }
 
         return false;
     }
