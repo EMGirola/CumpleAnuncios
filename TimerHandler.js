@@ -14,7 +14,8 @@ module.exports = class {
 
         if (lastNotif && lastNotif.created_at) {
             console.log('Last notification time: ', lastNotif.created_at);
-            let oldDate = new Date(lastNotif.created_at);
+            console.log('Type of createdDate: ', typeof lastNotif.created_at);
+            let oldDate = new Date(Number(lastNotif.created_at));
 
             console.log('Old date before insert hours: ', oldDate);
 
