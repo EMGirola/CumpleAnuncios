@@ -34,7 +34,7 @@ module.exports = class {
         twoAmArgentina.setMinutes(1);
         twoAmArgentina.setSeconds(0);
 
-        await this.pool.query(`INSERT INTO ${TABLE_NAME} (created_at) VALUES (${twoAmArgentina})`);
+        await this.pool.query(`INSERT INTO ${TABLE_NAME} (created_at) VALUES (${twoAmArgentina.getTime()})`);
 
     }
 
