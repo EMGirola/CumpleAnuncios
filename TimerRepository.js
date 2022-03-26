@@ -30,7 +30,7 @@ module.exports = class {
 
         let twoAmArgentina = new Date();
         
-        twoAmArgentina.setHours(5);
+        twoAmArgentina.setHours(process.env.MIN_HOURS);
         twoAmArgentina.setMinutes(1);
         twoAmArgentina.setSeconds(0);
 
