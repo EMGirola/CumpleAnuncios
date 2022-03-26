@@ -20,10 +20,17 @@ app.get('/api/notify', async (req, res) => {
     if (await timer.isNotificationNeeded()) {
         console.log('Notification is needed, going to');
         try {
-            console.log('Notifying birthdates');
-            await container.notify();
-            console.log('Notifying WORDLE');
-            await wordleContainer.notify();
+
+            if (process.env.NOTIFY_BIRTH) {
+                console.log('Notifying birthdates');
+                await container.notify();    
+            }
+
+            if (process.env.NOTIFY_WORDLE) {
+                console.log('Notifying WORDLE');
+                await wordleContainer.notify();                
+            }
+
             console.log('Inserting new date to the notificacion');
             await timer.insertNotification();    
         } catch(ex) {
