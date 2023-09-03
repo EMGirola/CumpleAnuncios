@@ -168,4 +168,5 @@ app.put('/api/user/modify/:name', function (req, res) {
 
 app.listen(process.env.PORT || 3000, () => {
     console.log("El servidor esta inicializado.");
+    console.log(`Listening on port: ${process.env.PORT}`);
 });

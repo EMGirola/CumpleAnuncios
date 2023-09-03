@@ -8,10 +8,11 @@ module.exports = class {
 
     constructor(){
         this.pool = new Pool({
-            connectionString: process.env.DATABASE_URL,
-            ssl: {
-                rejectUnauthorized: false
-            }
+            user: process.env.USER_DATABASE,
+            host: process.env.DATABASE_HOST,
+            database: process.env.DATABASE_NAME,
+            password: process.env.DATABASE_PASSWORD,
+            port: process.env.DATABASE_PORT || 5432,
         });
     }
 
@@ -30,7 +31,7 @@ module.exports = class {
 
         let twoAmArgentina = new Date();
         
-        twoAmArgentina.setHours(process.env.MIN_HOURS);
+        twoAmArgentina.setHours(Number(process.env.MIN_HOURS));
         twoAmArgentina.setMinutes(1);
         twoAmArgentina.setSeconds(0);
 

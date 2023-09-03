@@ -15,12 +15,15 @@ module.exports = class {
 
 
         this.pool = new Pool({
-            connectionString: process.env.DATABASE_URL,
-            ssl: {
-                rejectUnauthorized: false
-            }
+            user: process.env.USER_DATABASE,
+            host: process.env.DATABASE_HOST,
+            database: process.env.DATABASE_NAME,
+            password: process.env.DATABASE_PASSWORD,
+            port: process.env.DATABASE_PORT || 5432,
         });
         
+
+        this.checkOrCreateTimerTable();
     }
 
     async getUsers() {
@@ -126,4 +129,16 @@ module.exports = class {
 
         return month + '-' + day;
     }
+
+
+    async checkOrCreateTimerTable() {
+        await this.pool.query(`CREATE TABLE IF NOT EXISTS public.users (
+            user_id serial PRIMARY KEY, 
+            username VARCHAR ( 50 ), 
+            datebirth VARCHAR ( 50 ), 
+            message VARCHAR ( 300 )
+        )`);
+        
+    }
+
 }
