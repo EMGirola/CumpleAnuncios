@@ -39,16 +39,30 @@ setInterval( async () => {
 }, process.env.INTERVAL || 6000)
 
 
+let lastNotification;
+let cantNotif;
+
+
+app.get('/api/status', async (req, res) => {
+    let response = {
+        lastNotif: lastNotification || 'NO_DATA',
+        quantity: cantNotif || 'NO_DATA'
+    }
+    
+    res.status(200).send(response);
+});
+
 app.get('/api/notify', async (req, res) => {
     console.log('Received request for notify');
 
     if (await timer.isNotificationNeeded()) {
         console.log('Notification is needed, going to');
+        lastNotification = new Date().toISOString();
         try {
 
             if (process.env.NOTIFY_BIRTH) {
                 console.log('Notifying birthdates');
-                await container.notify();    
+                cantNotif = await container.notify();    
             }
 
             if (process.env.NOTIFY_WORDLE) {
