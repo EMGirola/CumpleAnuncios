@@ -15,7 +15,7 @@ app.use(express.json());
 
 
 setInterval( async () => {
-    if (await timer.isNotificationNeeded()) {
+    if (await timer.isNotificationNeeded() || process.env.BYPASS_REQUIRED) {
         console.log('Notification is needed, going to');
         try {
 
