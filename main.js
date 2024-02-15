@@ -17,11 +17,12 @@ app.use(express.json());
 setInterval( async () => {
     if (await timer.isNotificationNeeded()) {
         console.log('Notification is needed, going to');
+        lastNotification = new Date().toLocaleString();
         try {
 
             if (process.env.NOTIFY_BIRTH) {
                 console.log('Notifying birthdates');
-                await container.notify();    
+                cantNotif = await container.notify() || 0;    
             }
 
             if (process.env.NOTIFY_WORDLE) {
@@ -53,14 +54,13 @@ app.get('/api/status', async (req, res) => {
 });
 
 app.get('/api/notify', async (req, res) => {
-    console.log('Received request for notify');
     console.log('Notification is forced, going to');
-    lastNotification = new Date().toISOString();
+    lastNotification = new Date().toLocaleString();
     try {
 
         if (process.env.NOTIFY_BIRTH) {
             console.log('Notifying birthdates');
-            cantNotif = await container.notify();    
+            cantNotif = await container.notify() || 0;    
         }
 
         if (process.env.NOTIFY_WORDLE) {
