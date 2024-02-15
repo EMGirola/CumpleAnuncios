@@ -15,7 +15,7 @@ app.use(express.json());
 
 
 setInterval( async () => {
-    if (await timer.isNotificationNeeded() || process.env.BYPASS_REQUIRED) {
+    if (await timer.isNotificationNeeded()) {
         console.log('Notification is needed, going to');
         try {
 
@@ -54,29 +54,26 @@ app.get('/api/status', async (req, res) => {
 
 app.get('/api/notify', async (req, res) => {
     console.log('Received request for notify');
+    console.log('Notification is forced, going to');
+    lastNotification = new Date().toISOString();
+    try {
 
-    if (await timer.isNotificationNeeded()) {
-        console.log('Notification is needed, going to');
-        lastNotification = new Date().toISOString();
-        try {
-
-            if (process.env.NOTIFY_BIRTH) {
-                console.log('Notifying birthdates');
-                cantNotif = await container.notify();    
-            }
-
-            if (process.env.NOTIFY_WORDLE) {
-                console.log('Notifying WORDLE');
-                await wordleContainer.notify();                
-            }
-
-            console.log('Inserting new date to the notificacion');
-            await timer.insertNotification();    
-        } catch(ex) {
-            console.log('Exception trying to do something: ', ex);
+        if (process.env.NOTIFY_BIRTH) {
+            console.log('Notifying birthdates');
+            cantNotif = await container.notify();    
         }
 
+        if (process.env.NOTIFY_WORDLE) {
+            console.log('Notifying WORDLE');
+            await wordleContainer.notify();                
+        }
+
+        console.log('Inserting new date to the notificacion');
+        await timer.insertNotification();    
+    } catch(ex) {
+        console.log('Exception trying to do something: ', ex);
     }
+
 
     res.send('Notifiy OK');
 });
