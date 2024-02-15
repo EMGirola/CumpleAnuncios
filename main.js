@@ -14,6 +14,31 @@ var timer = new TimerHandler();
 app.use(express.json());
 
 
+setInterval( async () => {
+    if (await timer.isNotificationNeeded()) {
+        console.log('Notification is needed, going to');
+        try {
+
+            if (process.env.NOTIFY_BIRTH) {
+                console.log('Notifying birthdates');
+                await container.notify();    
+            }
+
+            if (process.env.NOTIFY_WORDLE) {
+                console.log('Notifying WORDLE');
+                await wordleContainer.notify();                
+            }
+
+            console.log('Inserting new date to the notificacion');
+            await timer.insertNotification();    
+        } catch(ex) {
+            console.log('Exception trying to do something: ', ex);
+        }
+
+    }
+}, process.env.INTERVAL || 6000)
+
+
 app.get('/api/notify', async (req, res) => {
     console.log('Received request for notify');
 
