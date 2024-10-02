@@ -34,7 +34,7 @@ module.exports = class {
 
     async notify() {
 
-        channelRabbit.sendToQueue(queue, Buffer.from(JSON.stringify({ chatId: daiWpp, message: `Holi, esta notificación es un recordatorio.` })), {
+        channelRabbit.sendToQueue(queue, Buffer.from(JSON.stringify({ chatId: daiWpp, message: `Pastilla\nAnti\nBebé 💊🚫👶` })), {
             persistent: true
         });
     }
