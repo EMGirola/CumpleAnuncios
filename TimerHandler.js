@@ -19,7 +19,7 @@ module.exports = class {
 
             let newDate = new Date();
 
-            //console.log(`Old time: ${oldDate} VS Now: ${newDate}`);
+            console.log(`DAI: Old time: ${oldDate} VS Now: ${newDate}`);
 
             if (oldDate < newDate) {
                 return true;
