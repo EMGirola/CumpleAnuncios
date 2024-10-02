@@ -6,10 +6,12 @@ const User = require('./User.js');
 const Container = require("./UserContainer");
 const WordleContainer = require("./WordleContainer");
 const TimerHandler = require("./TimerHandler.js");
+const DaiContainer = require("./DaiContainer.js");
 
 var container = new Container();
 var wordleContainer = new WordleContainer();
 var timer = new TimerHandler();
+var daiNotif = new DaiContainer();
 
 app.use(express.json());
 
@@ -22,21 +24,34 @@ setInterval( async () => {
 
             if (process.env.NOTIFY_BIRTH) {
                 console.log('Notifying birthdates');
-                cantNotif = await container.notify() || 0;    
+                cantNotif = await container.notify() || 0;
             }
 
             if (process.env.NOTIFY_WORDLE) {
+                
                 console.log('Notifying WORDLE');
                 await wordleContainer.notify();                
             }
 
             console.log('Inserting new date to the notificacion');
-            await timer.insertNotification();    
+            await timer.insertNotification('ALL', process.env.MIN_HOURS);    
         } catch(ex) {
             console.log('Exception trying to do something: ', ex);
         }
 
     }
+
+    if (await timer.isDaiNotificationNeeded()) {
+        console.log('DAI: Notification is needed, going to');
+
+        if (process.env.NOTIFY_DAI) {
+            daiNotif.notify();
+        }
+
+        await timer.insertNotification('DAI', process.env.MIN_HOURS_DAI);
+    }
+
+
 }, process.env.INTERVAL || 6000)
 
 

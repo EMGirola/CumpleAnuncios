@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/EMGirola/CumpleAnuncios#readme",
   "dependencies": {
+    "amqplib": "^0.10.4",
     "discord-webhook-node": "^1.1.8",
     "express": "^4.17.1",
     "pg": "^8.6.0",
