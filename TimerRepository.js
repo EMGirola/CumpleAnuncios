@@ -20,7 +20,7 @@ module.exports = class {
     async fetchLastNotification(type) {
         this.checkOrCreateTimerTable();
 
-        let result = await this.pool.query(`SELECT id, created_at FROM ${TABLE_SCHEMA}.${TABLE_NAME} WHERE type = ${type} ORDER BY created_at DESC LIMIT 1`);
+        let result = await this.pool.query(`SELECT id, created_at FROM ${TABLE_SCHEMA}.${TABLE_NAME} WHERE type = '${type}' ORDER BY created_at DESC LIMIT 1`);
 
         return result.rows[0];
     }
@@ -35,7 +35,7 @@ module.exports = class {
         twoAmArgentina.setMinutes(1);
         twoAmArgentina.setSeconds(0);
 
-        await this.pool.query(`INSERT INTO ${TABLE_NAME} (created_at, type) VALUES (${twoAmArgentina.getTime()}, ${type})`);
+        await this.pool.query(`INSERT INTO ${TABLE_NAME} (created_at, type) VALUES (${twoAmArgentina.getTime()}, '${type}')`);
 
     }
 
