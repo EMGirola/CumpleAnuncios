@@ -17,7 +17,7 @@ amqp.connect(process.env.RABBIT_PRODUCER, function (error0, connection) {
         }
 
         channel.assertQueue(queue, {
-            durable: true
+            durable: false
         });
 
 
